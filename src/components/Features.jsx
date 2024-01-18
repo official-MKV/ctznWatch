@@ -57,7 +57,7 @@ export default () => {
           />
         </svg>
       ),
-      title: "Solve Police Cases",
+      title: "Give tips on cases",
       desc: "Collaborate with Law Enforcement by Providing Crucial Information on Ongoing Investigations, Strengthening the Community's Role in Crime Resolution",
     },
   ];

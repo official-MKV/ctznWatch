@@ -1,10 +1,34 @@
 import React from "react";
 import Logo from "../assets/logo.jpeg";
+import { useEffect, useState } from "react";
 
 export default function Nav() {
+  const [scrolling, setScrolling] = useState(false);
+  const scrollThreshold = 100; // Adjust this value to your preference
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > scrollThreshold) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
-      <nav class="bg-white dark:bg-[#000000] fixed w-full z-20 top-0 start-0  text-light">
+      <nav
+        class={`bg-white ${
+          scrolling ? "bg-[#000000]" : ""
+        } fixed w-full z-20 top-0 start-0  text-light transition-all duration-700 ease-in-out`}
+      >
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="https://flowbite.com/"
