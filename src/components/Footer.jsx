@@ -25,12 +25,8 @@ export default function Footer() {
   return (
     <footer className="text-gray-500 bg-black px-4 py-5 w-full mx-auto md:px-8 text-dark">
       <div className="max-w-lg sm:mx-auto sm:text-center">
-        <img
-          src="https://www.floatui.com/logo.svg"
-          className="w-32 sm:mx-auto"
-        />
         <p className="leading-relaxed mt-2 text-[15px] text-dark">
-          The Citizen Watch Initiative, a non-profit organization, is dedicated
+          The Citizen Assist Initiative, a non-profit organization, is dedicated
           to tackling security challenges in Nigeria. Through community
           engagement, we facilitate anonymous crime reporting, tip-sharing, and
           security updates. Our goal is to foster collective vigilance, empower
@@ -64,7 +60,7 @@ export default function Footer() {
             </li>
 
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="https://www.facebook.com/profile.php?id=61555872501953&mibextid=2JQ9oc">
                 <svg class="svg-icon w-6 h-6 text-blue-700" viewBox="0 0 20 20">
                   <path
                     fill="none"
@@ -75,7 +71,7 @@ export default function Footer() {
             </li>
 
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="https://www.instagram.com/citizenassist?utm_source=qr&igsh=M2dzbWUxejU0Mnpx">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -91,7 +87,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="https://www.linkedin.com/company/citizen-assist-initiative/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
