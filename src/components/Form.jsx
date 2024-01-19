@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import SpringModal from "./Pop.jsx";
+import { collection, addDoc } from "firebase/firestore";
+import loading from "../assets/loading.svg";
+
+import { db } from "../firebase__init.js";
+import {
+  statesWithLocalGovernments,
+  statesInNigeria,
+} from "../Data/locationData.js";
+
 function Form() {
-  const statesInNigeria = [
-    { value: "Abuja", label: "Abuja" },
-    { value: "Lagos", label: "Lagos" },
-    { value: "Kano", label: "Kano" },
-    // Add other states as needed
-  ];
+  const [isOpen, setIsOpen] = useState(false);
+  const sendtoDatabase = async (event) => {
+    event.preventDefault();
+    setSending(true);
+    try {
+      const docRef = await addDoc(collection(db, "Tips"), {
+        crimeType: selectedCrime.value,
+        state: selectedState.value,
+        location: location,
+        information: crimeInfo,
+      });
+      setIsOpen(true);
+      setSelectedCrime("");
+      setSelectedState("");
+      setLocation("");
+      setCrimeInfo("");
+      setSending(false);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      setSending(false);
+    }
+  };
   const crimesInNigeria = [
     { label: "Theft", value: "Theft" },
     { label: "Assault", value: "Assault" },
@@ -18,10 +44,14 @@ function Form() {
     { label: "Kidnapping", value: "Kidnapping" },
     { label: "Harassment", value: "Harassment" },
     { label: "Domestic Violence", value: "Domestic Violence" },
+
     // Add other states as needed
   ];
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCrime, setSelectedCrime] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [crimeInfo, setCrimeInfo] = useState(null);
+  const [sending, setSending] = useState(false);
   const handleCrimeChange = (selectedOption) => {
     setSelectedCrime(selectedOption);
   };
@@ -32,12 +62,17 @@ function Form() {
 
   return (
     <div className="relative lg:w-[50rem] w-full  ">
+      <SpringModal
+        text={"Thank You for your information"}
+        subText={
+          "Note this information will not be traced backed to you.It is completeley anonymous"
+        }
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       <form class="max-w-sm mx-auto text-black  ">
         <div class="mb-5">
-          <label
-            for="Crime"
-            class="block mb-2 text-sm font-medium text-gray-900 text-dark"
-          >
+          <label for="Crime" class="block mb-2 text-sm font-medium  text-dark">
             Crime Type
           </label>
           <div className="w-full">
@@ -53,10 +88,7 @@ function Form() {
           </div>
         </div>
         <div class="mb-5">
-          <label
-            for="state"
-            class="block mb-2 text-sm font-medium text-gray-900 text-dark"
-          >
+          <label for="state" class="block mb-2 text-sm font-medium  text-dark">
             State
           </label>
           <div className="w-full">
@@ -74,14 +106,18 @@ function Form() {
         <div class="mb-5">
           <label
             for="address"
-            class="block mb-2 text-sm font-medium text-gray-900 text-dark"
+            class="block mb-2 text-sm font-medium  text-dark"
           >
-            Address
+            Location of crime
           </label>
           <input
             type="text"
             id="address"
-            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+            onChange={(e) => {
+              setLocation(e.target.value);
+            }}
+            value={location}
+            class="shadow-sm  border border-[gray]/30 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   placeholder-gray-400  "
             placeholder="123 Main Street, Lagos, Nigeria, 100001"
             required
           />
@@ -90,11 +126,17 @@ function Form() {
           <label
             type="text"
             id="information"
-            class="block mb-2 text-sm font-medium text-gray-900 text-dark"
+            class="block mb-2 text-sm font-medium  text-dark"
           >
             Information
           </label>
-          <textarea class="shadow-sm bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500  w-full p-2.5 dark:bg-gray-700 " />
+          <textarea
+            onChange={(e) => {
+              setCrimeInfo(e.target.value);
+            }}
+            value={crimeInfo}
+            class="shadow-sm border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500  w-full p-2.5 "
+          />
         </div>
 
         <div class="flex items-start mb-5 text-dark">
@@ -107,10 +149,7 @@ function Form() {
               required
             />
           </div>
-          <label
-            for="terms"
-            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+          <label for="terms" class="ms-2 text-sm font-medium text-gray-900 ">
             I agree with the{" "}
             <a
               href="#"
@@ -122,9 +161,14 @@ function Form() {
         </div>
         <button
           type="submit"
-          class="text-light bg-action hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={sendtoDatabase}
+          class="text-light bg-action hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800"
         >
-          Report Crime
+          {sending ? (
+            <img className="w-[30px] h-[30px]" src={loading} />
+          ) : (
+            "Report Crime"
+          )}
         </button>
       </form>
     </div>

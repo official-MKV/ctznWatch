@@ -5,6 +5,7 @@ import Features from "./components/Features";
 import Cta from "./components/Cta";
 import Promo from "./components/Promo";
 import Footer from "./components/Footer";
+import Info from "./components/Info";
 
 import "./App.css";
 
@@ -15,6 +16,7 @@ function App() {
         <Nav />
       </div>
       <Hero />
+      <Info />
 
       <Cta />
       <Promo />
