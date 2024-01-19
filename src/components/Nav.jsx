@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../assets/logo.jpeg";
 import { useEffect, useState } from "react";
 
-export default function Nav() {
+export default function Nav({ report }) {
   const [scrolling, setScrolling] = useState(false);
   const scrollThreshold = 100; // Adjust this value to your preference
 
@@ -39,6 +39,7 @@ export default function Nav() {
           </a>
           <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
+              onClick={report}
               type="button"
               class={`     ${
                 scrolling
